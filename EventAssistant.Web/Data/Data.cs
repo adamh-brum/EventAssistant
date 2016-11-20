@@ -1,5 +1,6 @@
 ﻿using EventAssistant.Models;
 using EventAssistant.Web.Data;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ namespace EventAssistant.Web.Data
     {
         public static void AddAttendee(AttendeeViewModel collection, string userName)
         {
+            // Get an instance of the DB
             var options = new Microsoft.EntityFrameworkCore.DbContextOptions<ApplicationDbContext>();
             using (var db = new ApplicationDbContext(options))
             {
@@ -24,28 +26,47 @@ namespace EventAssistant.Web.Data
 
         public static void AddEvent(EventViewModel eventViewModel, string userName)
         {
-            var options = new Microsoft.EntityFrameworkCore.DbContextOptions<ApplicationDbContext>();
-            using (var db = new ApplicationDbContext(options))
+            string connectionString = GetConnectionString();
+            using (var context = EventContextFactory.Create(connectionString))
             {
-                var userData = db.UserData.FirstOrDefault(u => u.UserName == userName);
-
-                if (userData == null)
-                {
-                    userData = new UserData()
-                    {
-                        UserName = userName,
-                        Events = new List<EventViewModel>() { eventViewModel }
-                    };
-
-                    db.UserData.Add(userData);
-                }
-                else
-                {
-                    userData.Events.Add(eventViewModel);
-                }
-
-                db.SaveChanges();
+                context.Add(eventViewModel);
+                context.SaveChanges();
             }
+
+            //var options = new Microsoft.EntityFrameworkCore.DbContextOptions<ApplicationDbContext>();
+            //using (var db = new ApplicationDbContext(options))
+            //{
+            //    var userData = db.UserData.FirstOrDefault(u => u.UserName == userName);
+
+            //    if (userData == null)
+            //    {
+            //        userData = new UserData()
+            //        {
+            //            UserName = userName,
+            //            Events = new List<EventViewModel>() { eventViewModel }
+            //        };
+
+            //        db.UserData.Add(userData);
+            //    }
+            //    else
+            //    {
+            //        userData.Events.Add(eventViewModel);
+            //    }
+
+            //    db.SaveChanges();
+            //}
+        }
+
+        private static string GetConnectionString()
+        {
+            return "server=localhost;userid=root;pwd=;port=3305;database=sakila;sslmode=none;";
+
+        //    var builder = new ConfigurationBuilder()
+        //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            //    var configuration = builder.Build();
+
+            //    return configuration.GetConnectionString("DefaultConnection");
         }
 
         private static IEnumerable<EventViewModel> GetEvents(string userName)

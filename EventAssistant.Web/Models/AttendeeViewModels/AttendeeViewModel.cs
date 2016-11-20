@@ -4,6 +4,8 @@
 
     public class AttendeeViewModel
     {
+        public int Id { get; set; }
+
         public string EventName { get; set; }
 
         [Required(ErrorMessage = "Please provide a first name")]

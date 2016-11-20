@@ -6,6 +6,8 @@
 
     public class EventViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "You must provide a description for the event")]
         public string Name { get; set; }
 

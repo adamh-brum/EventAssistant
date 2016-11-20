@@ -1,11 +1,15 @@
 ﻿{
   "userSecretsId": "aspnet-EventAssistant.Web-7ea219e2-e83b-421d-8295-95c2045a7eeb",
-
+  "copyToOutput": {
+    "include": "appsettings.json"
+  },
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
       "type": "platform"
     },
+    "MySql.Data.Core": "7.0.4-IR-191",
+    "MySql.Data.EntityFrameworkCore": "7.0.4-IR-191",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
@@ -41,7 +45,7 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
     }
